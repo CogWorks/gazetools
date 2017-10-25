@@ -268,3 +268,26 @@ gazetools$methods(summary = function(filter, by=NULL) {
   .call[[3]] <- match.call()$filter
   summary.gazetools(eval(.call), by=by)
 })
+
+
+#' @export
+rplot <- function(raster, xlim=NULL, ylim=NULL, rois=NULL, ...) {
+ if (is.null(xlim))
+   xlim <- c(0,ncol(raster))
+ if (is.null(ylim))
+   ylim <- c(0,nrow(raster))
+ raster <- raster[seq(ylim[1]+1,ylim[2]),seq(xlim[1]+1,xlim[2])]
+ p <- ggplot(data=data.frame(x=xlim,y=ylim),aes(x=x,y=y)) +
+   annotation_raster(raster,xlim[1],xlim[2],ylim[1],ylim[2],TRUE) +
+   coord_fixed(xlim=xlim,ylim=ylim)
+ if (class(rois)=="ROIs")
+   p <- p + geom_path(data=rois,aes(x=x,y=y,color=reorder(id,layer)),
+...) + labs(color="ROIs")
+ p
+}
+
+#' @export
+coord_monitor <- function(res_width,res_height)
+  
+#' @export
+coord_fixed(xlim=c(0,res_width),ylim=c(0,res_height))
