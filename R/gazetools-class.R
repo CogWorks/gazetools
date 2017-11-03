@@ -287,4 +287,6 @@ rplot <- function(raster, xlim=NULL, ylim=NULL, rois=NULL, ...) {
 }
 
 #' @export
-coord_monitor <- function(res_width,res_height)
+coord_monitor <- function(res_width,res_height){
+  coord_fixed(xlim=c(0,res_width),ylim=c(0,res_height))
+  }
